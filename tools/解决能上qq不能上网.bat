@@ -1,0 +1,1 @@
+ipconfig -flushdns & ipconfig -release & netsh winsock reset

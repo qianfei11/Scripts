@@ -1,3 +1,4 @@
+#/usr/bin/env python2
 import subprocess
 import re
 from gdb import *
@@ -15,20 +16,20 @@ class PrintHeap (Command):
         size = chunk['size']
         fd = chunk['fd']
         bk = chunk['bk']
-        print (red('Chunk', 'bold'), blue('@', 'bold'), yellow('{}','bold').format(addr))
+        print 'Chunk @ 0x%x' % (addr)
         if size&1:
-            print (red('    prevsize:', 'bold'), purple('(inuse)', 'bold'))
+            print '    prevsize: (inuse)'
         else:
-            print (red('    prevsize:', 'bold'), green('{}', 'bold').format(int(prevsize)), yellow('({})', 'bold').format(prevsize))
-        print (red('    size:', 'bold'), green('{}', 'bold').format(int(size&~7)), yellow('({})', 'bold').format(size))
-        print (red('    fd:', 'bold'), yellow('{}', 'bold').format(fd))
-        print (red('    bk:', 'bold'), yellow('{}', 'bold').format(bk))
+            print '    prevsize: 0x%x' % (prevsize)
+        print '    size: 0x%x' % (size)
+        print '    fd: 0x%x' % (fd)
+        print '    bk: 0x%x' % (bk)
         return chunk
 
     def printheap(self, addr):
         while True:
             chunk = self.printchunk(addr)
-            print ('')
+            print ''
             size = chunk['size']&~7
             if size>10000:
                 break
@@ -39,7 +40,7 @@ class PrintHeap (Command):
         chunk = b['fd']
         while chunk != addr:
             chunk = self.printchunk(chunk)['fd']
-        print ('')
+        print ''
     
     def invoke(self, arg, from_tty):
         args = arg.split()

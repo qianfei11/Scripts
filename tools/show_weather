@@ -1,7 +1,7 @@
 #!/bin/bash
 if [ -z "$1" ]; then
-	eval "curl wttr.in"
+	eval "curl v2.wttr.in"
 fi
 if [ -n "$1" ]; then
-	eval "curl wttr.in/$1"
+	eval "curl v2.wttr.in/$1"
 fi

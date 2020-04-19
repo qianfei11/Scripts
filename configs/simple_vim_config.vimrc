@@ -1,14 +1,13 @@
 syntax enable
-set nocompatible
-set tabstop=4
-set softtabstop=4
-set showcmd
-set cursorline
-set wildmenu
+filetype plugin indent on
+set omnifunc=syntaxcomplete#Complete
+imap <silent> ` <C-X><C-O>
+set number
 set lazyredraw
 set showmatch
-set backspace=indent,eol,start
-set background=dark
-set number
-set encoding=utf-8
 set ruler
+set cursorline
+set showcmd
+set tabstop=4
+set shiftwidth=4
+set expandtab

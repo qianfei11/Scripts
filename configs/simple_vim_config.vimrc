@@ -1,7 +1,6 @@
 syntax enable
 filetype plugin indent on
 set omnifunc=syntaxcomplete#Complete
-imap <silent> ` <C-X><C-O>
 set number
 set lazyredraw
 set showmatch

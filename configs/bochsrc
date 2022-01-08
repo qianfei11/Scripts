@@ -1,7 +1,0 @@
-megs: 16
-romimage: file=/usr/local/Cellar/bochs/2.6.9_2/share/bochs/BIOS-bochs-latest 
-vgaromimage: file=/usr/local/Cellar/bochs/2.6.9_2/share/bochs/VGABIOS-lgpl-latest
-mouse: enabled=0
-keyboard: type=mf, serial_delay=250
-floppya: 1_44="Image.bin", status=inserted
-boot: floppy

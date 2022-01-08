@@ -4,24 +4,40 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-char str[] = "#!/usr/bin/env python\nfrom pwn import *\n\ncontext.log_level = 'debug'\ncontext.terminal = ['lxterminal', '-e']\n\nlocal = 1\nif local:\n\tp = process('%s')\nelse:\n\tp = remote()\n\ngdb.attach(p)\n\np.interactive()\n";
+char exp[] = "\
+#!/usr/bin/env python\n\
+from pwn import *\n\n\
+context.log_level = 'debug'\n\
+context.terminal = ['tmux', 'split', '-h']\n\n\
+local = 1\n\
+if local:\n\
+    p = process('%s')\n\
+    elf = ELF('%s')\n\
+    libc = ELF('/lib/x86_64-linux-gnu/libc.so.6')\n\
+else:\n\
+    pass\n\n\
+gdb.attach(p)\n\n\
+p.interactive()\n\n\
+";
 
-int main(int argc, char *argv[])
-{
-    if (argc != 2)
-    {
-        printf("Usage: %s PROGRAM_NAME\n", argv[0]);
+int main(int argc, char *argv[]) {
+    if (argc != 2) {
+        printf("Usage: %s [PROGRAM_NAME]\n", argv[0]);
         exit(-1);
     }
+    char *binary = argv[1];
     FILE *fp = NULL;
-    fp = fopen("exp.py", "w");
-    fprintf(fp, str, argv[1]);
-    fclose(fp);
-    if (chmod("exp.py", 0755) != 0)
-    {
-        perror("chmod");
+    fp = fopen("exp.py", "w+");
+    if (fp == NULL) {
+        perror("fopen");
         exit(-2);
     }
-    printf("Exploit.py generated successfully.\n");
+    fprintf(fp, exp, binary, binary);
+    fclose(fp);
+    if (chmod("exp.py", 0755) != 0) {
+        perror("chmod");
+        exit(-3);
+    }
+    printf("[*] `exp.py` generated successfully.\n");
     exit(0);
 }
